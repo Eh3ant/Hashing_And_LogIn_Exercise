@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User Profile
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">User Profile</h1>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>First Name:</strong> {{ user.first_name }}</p>
+<p><strong>Last Name:</strong> {{ user.last_name }}</p>
+
+<h2>Feedback</h2>
+{% if feedbacks %}
+<ul>
+    {% for feedback in feedbacks %}
+    <li>
+        <strong>{{ feedback.title }}</strong>: {{ feedback.content }}
+        <a href="{{ url_for('edit_feedback', feedback_id=feedback.id) }}"><button
+                class="btn btn-primary m-1 btn-sm">Edit</button></a>
+        <form action="{{ url_for('delete_feedback', feedback_id=feedback.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No feedbacks available.</p>
+{% endif %}
+
+<a href="/users/{{ user.username }}/feedback/add" class="btn btn-primary">Add Feedback</a>
+<form action="/users/{{ user.username }}/delete" method="POST" style="display:inline;">
+    <button class="btn btn-danger">Delete User</button>
+</form>
+{% endblock %}
