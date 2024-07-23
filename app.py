@@ -47,6 +47,8 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    if 'user_id' in session:
+        return redirect(url_for('show_user',username=session['user_id']))
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
